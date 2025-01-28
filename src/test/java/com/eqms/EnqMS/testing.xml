@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="APITestSuite">
+    <test name="APITests">
+        <classes>
+            <class name="com.eqms.EnqMS.APITest" />
+        </classes>
+    </test>
+</suite>
