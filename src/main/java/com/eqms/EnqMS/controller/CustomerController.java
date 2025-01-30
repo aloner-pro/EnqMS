@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
@@ -32,5 +34,10 @@ public class CustomerController {
         Customer customer = customerService.findById(id);
         return customer.toDTO();
     }
-}
 
+    @GetMapping
+    public List<CustomerSummaryDTO> getAllNotes() {
+        // Calls the getNotes method from the NoteService to fetch all notes and returns the list
+        return this.customerService.getAll();
+    }
+}
