@@ -1,6 +1,7 @@
-package com.eqms.EnqMS.model;
+package com.eqms.EnqMS.dto;
 
 import java.util.List;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,4 @@ public class CustomerDTO {
         this.name = name;
         this.products = products;
     }
-
-    // Getters and Setters
-
 }

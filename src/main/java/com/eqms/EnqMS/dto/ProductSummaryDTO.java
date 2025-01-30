@@ -9,8 +9,6 @@ public class ProductSummaryDTO {
     private Long id;
     private String name;
 
-    // Constructor, Getters, and Setters
-
     public ProductSummaryDTO(Long id, String name) {
         this.id = id;
         this.name = name;

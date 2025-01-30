@@ -1,4 +1,4 @@
-package com.eqms.EnqMS.model;
+package com.eqms.EnqMS.dto;
 
 import lombok.Data;
 import lombok.Getter;
@@ -9,8 +9,5 @@ import lombok.Setter;
 @Data
 public class ProductDTO {
     private String name;
-
-    // Getters and Setters
-
 }
 

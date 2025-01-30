@@ -12,8 +12,6 @@ public class CustomerSummaryDTO {
     private String name;
     private List<ProductSummaryDTO> products;
 
-    // Constructor, Getters, and Setters
-
     public CustomerSummaryDTO(Long id, String name, List<ProductSummaryDTO> products) {
         this.id = id;
         this.name = name;

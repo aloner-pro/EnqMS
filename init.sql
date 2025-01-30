@@ -1,0 +1,2 @@
+CREATE ROLE postgres WITH LOGIN PASSWORD 'sohel';
+ALTER ROLE postgres CREATEDB;

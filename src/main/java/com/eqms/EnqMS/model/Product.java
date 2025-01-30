@@ -22,7 +22,4 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
-    // Getters and Setters
-
 }

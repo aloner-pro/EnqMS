@@ -26,8 +26,6 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
-    // Getters and Setters
-
     public CustomerSummaryDTO toDTO() {
         List<ProductSummaryDTO> productSummaries = products.stream()
                 .map(product -> new ProductSummaryDTO(product.getId(), product.getName()))

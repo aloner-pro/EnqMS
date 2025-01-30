@@ -1,7 +1,7 @@
 package com.eqms.EnqMS.controller;
 
 import com.eqms.EnqMS.model.Customer;
-import com.eqms.EnqMS.model.CustomerDTO;
+import com.eqms.EnqMS.dto.CustomerDTO;
 import com.eqms.EnqMS.dto.CustomerSummaryDTO;
 import com.eqms.EnqMS.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
