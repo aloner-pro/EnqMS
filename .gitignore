@@ -33,6 +33,5 @@ build/
 .vscode/
 
 application.yml
-.env
-*.log
-*.json
+*.env
+/logs
