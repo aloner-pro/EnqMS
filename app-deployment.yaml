@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enqms-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: enqms-app
+  template:
+    metadata:
+      labels:
+        app: enqms-app
+    spec:
+      containers:
+        - name: enqms-app
+          image: devsohel/enqms-app:latest
+          ports:
+            - containerPort: 9090
+          envFrom:
+            - configMapRef:
+                name: enqms-config
+            - secretRef:
+                name: enqms-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enqms-app-service
+spec:
+  selector:
+    app: enqms-app
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090
+  type: NodePort
