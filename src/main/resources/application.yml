@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/afterorder
+    url: jdbc:postgresql://postgres:5432/afterorder
     username: postgres
     password: sohel
     driver-class-name: org.postgresql.Driver
