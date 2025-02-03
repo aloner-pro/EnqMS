@@ -10,24 +10,41 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Make mvnw executable before executing it
-                sh 'chmod +x mvnw'
-                // Build the Maven project and skip tests
-                sh './mvnw clean package -DskipTests=true'
+                script {
+                    if (isUnix()) {
+                        // Ensure the mvnw script is executable
+                        sh 'chmod +x mvnw'
+                        sh './mvnw clean package -DskipTests=true'
+                    } else {
+                        // On Windows, call the Windows batch file
+                        bat 'mvnw.cmd clean package -DskipTests=true'
+                    }
+                }
             }
         }
 
         stage('Docker Build') {
             steps {
-                // Build Docker image
-                sh 'docker build -t enqms-app:latest .'
+                script {
+                    if (isUnix()) {
+                        sh 'docker build -t enqms-app:latest .'
+                    } else {
+                        bat 'docker build -t enqms-app:latest .'
+                    }
+                }
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                sh 'docker run -d -p 9090:9090 enqms-app:latest'
+                script {
+                    if (isUnix()) {
+                        sh 'docker run -d -p 9090:9090 enqms-app:latest'
+                    } else {
+                        bat 'docker run -d -p 9090:9090 enqms-app:latest'
+                    }
+                }
             }
         }
     }
