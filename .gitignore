@@ -39,3 +39,4 @@ logs/
 enqms-*.yaml
 postgres-*.yml
 
+test-output/
