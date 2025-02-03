@@ -1,6 +1,5 @@
 spring:
   datasource:
-    env_file: ./.env
     url: jdbc:postgresql://localhost:5432/afterorder
     username: postgres
     password: sohel
@@ -10,7 +9,6 @@ spring:
     hibernate:
       ddl-auto: update
       defer-datasource-initialization: true
-
   sql:
     init:
       mode: always
