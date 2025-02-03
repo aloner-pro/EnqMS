@@ -4,13 +4,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone the repository
                 git url: 'https://github.com/aloner-pro/EnqMS.git', branch: 'master'
             }
         }
 
         stage('Build') {
             steps {
+                // Make mvnw executable before executing it
+                sh 'chmod +x mvnw'
                 // Build the Maven project and skip tests
                 sh './mvnw clean package -DskipTests=true'
             }
@@ -25,7 +26,6 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Deploy the application (customize as needed)
                 echo 'Deploying the application...'
                 sh 'docker run -d -p 9090:9090 enqms-app:latest'
             }
