@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelReader {
+class ExcelReader {
 
     /**
      * Reads data from an Excel sheet and returns it as a list of maps.
