@@ -40,3 +40,4 @@ enqms-*.yaml
 postgres-*.yml
 
 test-output/
+*.txt
