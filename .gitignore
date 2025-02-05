@@ -37,7 +37,7 @@ logs/
 *.log
 
 enqms-secret.yaml
-postgres-secret.yml
+postgres-secret.yaml
 
 test-output/
 *.txt
