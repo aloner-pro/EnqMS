@@ -4,6 +4,7 @@ pipeline {
         SCANNER_HOME = tool 'sonarscanner'
         DOCKERHUB_CREDENTIALS = credentials('docker-hub')
         APP_NAME = "devsohel/enqms-app"
+        KUBECONFIG_CREDENTIALS_ID = 'kube-config'
     }
     stages {
         stage('Checkout') {
@@ -37,27 +38,30 @@ pipeline {
                 sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
             }
         }
-        stage('login to dockerhub') {
+
+        stage('Login to DockerHub') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage('push image') {
-           steps {
-               sh 'docker push $APP_NAME:$BUILD_NUMBER'
-           }
+        stage('Push Image') {
+            steps {
+                sh 'docker push $APP_NAME:$BUILD_NUMBER'
+            }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                sh 'kubectl apply -f sealed-postgres-secret.yaml'
-                sh 'kubectl apply -f sealed-enqms-secret.yaml'
-                sh 'kubectl apply -f postgres-config.yaml'
-                sh 'kubectl apply -f enqms-config.yaml'
-                sh 'kubectl apply -f enqms-deployment.yaml'
-                sh 'kubectl apply -f postgres-deployment.yaml'
+                withKubeConfig([credentialsId: KUBECONFIG_CREDENTIALS_ID]) {
+                    sh 'kubectl apply -f sealed-postgres-secret.yaml'
+                    sh 'kubectl apply -f sealed-enqms-secret.yaml'
+                    sh 'kubectl apply -f postgres-config.yaml'
+                    sh 'kubectl apply -f enqms-config.yaml'
+                    sh 'kubectl apply -f enqms-deployment.yaml'
+                    sh 'kubectl apply -f postgres-deployment.yaml'
+                }
             }
         }
     }
