@@ -41,3 +41,4 @@ postgres-secret.yaml
 
 test-output/
 *.txt
+*.pem
