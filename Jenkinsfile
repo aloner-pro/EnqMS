@@ -59,7 +59,7 @@ pipeline {
                     sh 'kubectl apply -f sealed-enqms-secret.yaml'
                     sh 'kubectl apply -f postgres-config.yaml'
                     sh 'kubectl apply -f enqms-config.yaml'
-                    sh 'kubectl apply -f enqms-deployment.yaml'
+                    sh 'kubectl apply -f app-deployment.yaml'
                     sh 'kubectl apply -f postgres-deployment.yaml'
                 }
             }
