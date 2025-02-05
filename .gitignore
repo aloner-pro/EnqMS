@@ -36,8 +36,8 @@ build/
 logs/
 *.log
 
-enqms-*.yaml
-postgres-*.yml
+enqms-secret.yaml
+postgres-secret.yml
 
 test-output/
 *.txt
