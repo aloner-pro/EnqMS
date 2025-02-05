@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         SCANNER_HOME = tool 'sonarscanner'
+        DOCKERHUB_CREDENTIALS = credentials('docker-hub')
+        APP_NAME = "devsohel/enqms-app"
     }
     stages {
         stage('Checkout') {
@@ -32,14 +34,25 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t enqms-app:latest .'
+                sh 'docker build -t $APP_NAME:$BUILD_NUMBER .'
             }
+        }
+        stage('login to dockerhub') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+
+        stage('push image') {
+           steps {
+               sh 'docker push $APP_NAME:$BUILD_NUMBER'
+           }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                    sh 'docker run -d -p 9090:9090 enqms-app:latest'
+                    sh 'docker run -d -p 9090:9090 $APP_NAME:$BUILD_NUMBER'
             }
         }
     }
