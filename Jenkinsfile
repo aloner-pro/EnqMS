@@ -52,7 +52,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                    sh 'docker run -d -p 9090:9090 $APP_NAME:$BUILD_NUMBER'
+                sh 'kubectl apply -f postgres-config.yaml'
+                sh 'kubectl apply -f enqms-config.yaml'
+                sh 'kubectl apply -f enqms-deployment.yaml'
+                sh 'kubectl apply -f postgres-deployment.yaml'
             }
         }
     }
