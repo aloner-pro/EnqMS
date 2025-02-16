@@ -22,9 +22,20 @@ pipeline {
                         }
                     }
                 }
+                // Add Quality Gate check
+                timeout(time: 2, unit: 'MINUTES') {
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            currentBuild.result = 'FAILURE'
+                            error "SonarQube Quality Gate failed with status: ${qg.status}"
+                        }
+                    }
+                }
             }
         }
-        
+
         stage('Build') {
             steps {
                 // Ensure the mvnw script is executable
@@ -66,12 +77,26 @@ pipeline {
         success {
             mail to: 'terminateduser9@gmail.com',
                  subject: "✅ Build Succeeded: ${currentBuild.fullDisplayName}",
-                 body: "The build has succeeded. Check details at ${env.BUILD_URL}"
+                 body: """
+                    The build has succeeded.
+                    Build URL: ${env.BUILD_URL}
+                    SonarQube Analysis: Passed
+                    Docker Image: ${APP_NAME}:${BUILD_NUMBER}
+                 """
         }
         failure {
             mail to: 'terminateduser9@gmail.com',
                  subject: "❌ Build Failed: ${currentBuild.fullDisplayName}",
-                 body: "The build has failed. Check details at ${env.BUILD_URL}"
+                 body: """
+                    The build has failed.
+                    Build URL: ${env.BUILD_URL}
+                    Please check SonarQube analysis results and logs for more details.
+                    Stage failed: ${currentBuild.description ?: 'Unknown stage'}
+                 """
+        }
+        always {
+            // Clean up Docker images to save space
+            sh 'docker system prune -f'
         }
     }
 }
