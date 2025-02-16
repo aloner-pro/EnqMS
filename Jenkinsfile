@@ -31,11 +31,12 @@ pipeline {
                         }
                     }
                 }
+                // Temporary workaround: wait 60 seconds to allow SonarQube to complete processing and fire the webhook
+                sleep time: 60, unit: 'SECONDS'
                 timeout(time: 2, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
                             currentBuild.result = 'FAILURE'
                             error "SonarQube Quality Gate failed with status: ${qg.status}"
                         }
