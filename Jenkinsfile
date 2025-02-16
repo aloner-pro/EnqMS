@@ -13,6 +13,15 @@ pipeline {
             }
         }
 
+        stage('Setup') {
+            steps {
+                // Set execute permissions for Maven wrapper
+                sh 'chmod +x ./mvnw'
+                // Also ensure the Maven wrapper jar is executable
+                sh 'chmod +x ./.mvn/wrapper/maven-wrapper.jar || true'
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarscanner') {
@@ -22,7 +31,6 @@ pipeline {
                         }
                     }
                 }
-                // Add Quality Gate check
                 timeout(time: 2, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate()
@@ -38,8 +46,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Ensure the mvnw script is executable
-                sh 'chmod +x mvnw'
                 sh './mvnw clean package -DskipTests=true'
             }
         }
@@ -95,7 +101,6 @@ pipeline {
                  """
         }
         always {
-            // Clean up Docker images to save space
             sh 'docker system prune -f'
         }
     }
