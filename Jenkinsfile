@@ -13,14 +13,6 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                // Ensure the mvnw script is executable
-                sh 'chmod +x mvnw'
-                sh './mvnw clean package -DskipTests=true'
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarscanner') {
@@ -30,6 +22,14 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Ensure the mvnw script is executable
+                sh 'chmod +x mvnw'
+                sh './mvnw clean package -DskipTests=true'
             }
         }
 
